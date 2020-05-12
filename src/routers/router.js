@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const facebook = require('../controllers/facebook');
+const testFunc = require('../controllers/testFunc');
 
-router.get('/', facebook.verify);
-router.post('/', facebook.postData);
+router.get('/', testFunc.verify);
+router.post('/', testFunc.postData);
 
 module.exports = router;

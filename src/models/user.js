@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var user_schema = new Schema(
     {
         userId: { type: String, required: true },
-        preferedGender: { type: String, required: true }
+        preferedGender: { type: String, default: "None" }
     });
 
 user_schema.index({ userId: 1 });
