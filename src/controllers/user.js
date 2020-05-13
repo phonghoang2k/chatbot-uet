@@ -17,7 +17,7 @@ module.exports.setPreferedGender = async function (id, genderString, callback) {
             break;
         }
         default: {
-            callback(-1, id);
+            callback(id, "found nothing");
         }
     }
 
@@ -26,7 +26,7 @@ module.exports.setPreferedGender = async function (id, genderString, callback) {
         preferedGender: preferedGender
     }, (err) => {
         if (err) {
-            callback(-2, id);
+            callback(-id, "error");
             console.log(err);
         } else {
             callback(id, preferedGender);
@@ -39,11 +39,12 @@ module.exports.getPreferedGender = async function (id, facebook, token, callback
         if (err) {
             callback("error");
         }
-        else { 
+        else {
             if (doc !== null) {
                 callback(doc.preferedGender);
             } else {
                 facebook.getFacebookData(token, id, (data) => {
+                    console.log(data);
                     if (!data.gender) {
                         this.setPreferedGender(id, language.KEYWORD_GENDERPREFER + 'hong', () => { });
                         callback('None');
