@@ -1,16 +1,16 @@
 # UET Chatbot with Nodejs and Mongoose
 
-##To install dependencies:
+## To install dependencies:
 ```
 npm i
 ```
 
-##To start project:
+## To start project:
 ```
 npm start
 ```
 
-#Authors
+# Authors
 
 Hoang Trung Phong
 [Facebook](https://www.facebook.com/kaka.phong.2a63/)
