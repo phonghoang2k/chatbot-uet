@@ -2,6 +2,12 @@ const axios = require('axios');
 const https = require('https');
 const config = require('../../custom/config')
 const language = require('../../custom/language');
+var heroku = null;
+
+if (config.HEROKU_API_KEY) {
+    var Heroku = require('heroku-client');
+    heroku = new Heroku({ token: config.HEROKU_API_KEY });
+}
 
 
 exports.getFacebookData = (accessToken, apiPath, callback) => {
@@ -17,13 +23,13 @@ exports.getFacebookData = (accessToken, apiPath, callback) => {
     // });
 
     var buffer = ''; //this buffer will be populated with the chunks of the data received from facebook
-    var request = https.get(options, function (result) {
+    var request = https.get(options, (result) => {
         result.setEncoding('utf8');
-        result.on('data', function (chunk) {
+        result.on('data', (chunk) => {
             buffer += chunk;
         });
 
-        result.on('end', function () {
+        result.on('end', () => {
             try {
                 var data = JSON.parse(buffer);
                 callback(data);
@@ -32,7 +38,7 @@ exports.getFacebookData = (accessToken, apiPath, callback) => {
             }
         });
     });
-    request.on('error', function (e) {
+    request.on('error', (e) => {
         console.log('error from facebook.getFbData: ' + e.message);
         callback({ "error": "facebook.getData Error" });
     });
@@ -49,7 +55,9 @@ exports.setupFacebookAPI = (axios, token) => {
                 "payload": "ʬ"
             }
         }
-    }).then((res) => { });
+    }).then((res) => {
+        console.log(res.data);
+    });
     axios({
         url: "https://graph.facebook.com/v7.0/me/thread_settings",
         params: { access_token: token },
@@ -111,8 +119,8 @@ module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) 
                         this.sendFacebookAPI(sender, sender, { text: language.ERR_200 }, null, true);
                     else if (response.data.error.code == 10)
                         this.sendFacebookAPI(sender, sender, { text: language.ERR_10 }, null, true);
-                    else if (co.HEROKU_API_KEY && response.data.error.code == 5)
-                        heroku.delete('/apps/' + co.APP_NAME + '/dynos/web.1', function (err, app) { });
+                    else if (config.HEROKU_API_KEY && response.data.error.code == 5)
+                        heroku.delete(`/apps/${config.APP_NAME}/dynos`, () => { });
                 }
             })
             .catch((error) => {
@@ -124,7 +132,7 @@ module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) 
     }
 }
 
-exports.sendSeenIndicator = function (receiver) {
+exports.sendSeenIndicator = (receiver) => {
     axios({
         url: 'https://graph.facebook.com/v7.0/me/messages',
         params: { access_token: config.FB_PAGE_ACCESS_TOKEN },
@@ -147,7 +155,7 @@ exports.sendImageVideoReport = (messageData, sender, receiver) => {
             "type": "template",
             "payload": {
                 "template_type": "button",
-                "text": "[Chatbot] Bạn đã nhận được 1 " + type,
+                "text": "[Chatbot] Đối phương đã gửi cho bạn 1 " + type,
                 "buttons": [{ "type": "web_url", "title": "Báo cáo/Report", "url": config.REPORT_LINK }]
             }
         }

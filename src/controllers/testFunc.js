@@ -7,7 +7,7 @@ const Waiter = require('../models/waiting')
 const User = require('../models/user')
 var user = require("./user");
 var facebook = require("./facebook");
-const token = 'EAAG7WfEhGK0BADqxAYZAAxnVMGZCE6qpLBqLZCsM9rCiqTxKnDQ9msX7ZCPEzUXHctcM1W5TcNHKZAqD6CrfkZBPwNA5ZCxj4wIDNuZAZC5TZCwP05Br1SzckdpMzCetUQppZAFOxzSEcintxwVMIgQ7ueSua4Fm81oNz0Tx1iRKqWrFbFGAiiZARZACENIx7QV0fALIZD';
+const token = 'EAAItZAekgTxABACOF0mxkgPhoztvo9G3PChPB7VcLtcoUcEAlhgi6g4db3ua9hiLhIJHFwotFeNj2cYgLzEOAXjUFytlHHexvrw0RJMXDpThc8Xn7kqoQIlJ5SbQCZBHvu4MwSxxl0A3a3546P1dXoEG0YkqCo9eqenwGuGqZBVD5UbZAIOOIOAZBuVLJzGsZD';
 const id = '2855691427779771';
 
 module.exports.verify = async (req, res, next) => {
@@ -15,16 +15,21 @@ module.exports.verify = async (req, res, next) => {
     //     handleSuccess(res, doc);
     // });
     await facebook.sendImageVideoReport({
+        mid: "a",
         attachments: [{
             type: "image",
             payload: {
-                attachment_id: "1745504518999123"
+                attachment_id: "174550458999123"
             }
         }]
     }, "1531043043663202", "1531043043663202")
-    handleSuccess(res, {
-        result: "done"
-    });
+
+    // await facebook.getFacebookData(token, id, (data) => {
+    //     console.log(data); 
+    // })
+    // handleSuccess(res, { 
+    //     result: "done"
+    // });
 }
 
 module.exports.postData = async (req, res, next) => {
