@@ -1,4 +1,8 @@
 module.exports = {
+
+    FIRST_COME : '[BOT] Chào mừng bạn đến với Chatbot. Trước khi bắt đầu, hãy chắc rằng bạn đã chọn đúng giới tính người muốn match.\n\nẤn trợ giúp (hoặc gửi trogiup) để xem thêm.',
+
+
     KEYWORD_GENDERPREFER: "tim",
     KEYWORD_HELP: "trogiup",
 

@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
 const axios = require('axios');
+const xhub = require('express-x-hub');
 
 //part
 const router = require('./src/routers/router');
-const facebook = require('./src/controllers/facebook');
+const facebook = require('./src/controllers/platform/facebook');
 
 //custom
 const config = require('./custom/config');
@@ -29,10 +30,12 @@ conn.once('open', function () {
     console.log('connected mongodb');
 });
 
-facebook.setupFacebookAPI(axios, config.FB_PAGE_ACCESS_TOKEN);
+facebook.setupFacebookAPI(config.FB_PAGE_ACCESS_TOKEN);
 
 // app.set('port', (process.env.PORT || config.PORT));
-app.use(cors());
+if (config.FB_APP_SECRET != '') {
+    app.use(xhub({ algorithm: 'sha1', secret: config.FB_APP_SECRET }));
+}
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: false }));
 app.use(bodyParser.json({ limit: '5mb' }));

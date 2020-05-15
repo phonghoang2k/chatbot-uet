@@ -1,7 +1,7 @@
 const axios = require('axios');
 const https = require('https');
-const config = require('../../custom/config')
-const language = require('../../custom/language');
+const config = require('../../../custom/config')
+const language = require('../../../custom/language');
 var heroku = null;
 
 if (config.HEROKU_API_KEY) {
@@ -10,17 +10,13 @@ if (config.HEROKU_API_KEY) {
 }
 
 
-exports.getFacebookData = (accessToken, apiPath, callback) => {
+exports.getUserData = (accessToken, apiPath, callback) => {
     var options = {
         host: 'graph.facebook.com',
         port: 443,
         path: `/${apiPath}?access_token=${accessToken}`, //apiPath example: '/me/friends'
         method: 'GET'
     };
-    //temporatory
-    // callback({
-    //     gender: "female"
-    // });
 
     var buffer = ''; //this buffer will be populated with the chunks of the data received from facebook
     var request = https.get(options, (result) => {
@@ -45,7 +41,7 @@ exports.getFacebookData = (accessToken, apiPath, callback) => {
     request.end();
 }
 
-exports.setupFacebookAPI = (axios, token) => {
+exports.setupFacebookAPI = (token) => {
     axios({
         url: "https://graph.facebook.com/v7.0/me/messenger_profile",
         params: { access_token: token },
@@ -71,7 +67,47 @@ exports.setupFacebookAPI = (axios, token) => {
     })
 }
 
-exports.quickBtns = [
+exports.sendTextMessage = (receiver, txt) => {
+    sendFacebookApi(receiver, receiver, { text: txt });
+}
+
+exports.sendMessageButtons = (sender, text, showStartButton, showHelpButton, showReportButton = false) => {
+    var buttons = [];
+    if (showStartButton) buttons.push({
+        "type": "postback",
+        "title": "Bắt đầu chat",
+        "payload": "batdau"
+    });
+    if (showHelpButton) buttons.push({
+        "type": "postback",
+        "title": "Xem trợ giúp",
+        "payload": "trogiup"
+    });
+    else buttons.push({
+        "type": "web_url",
+        "title": "Gửi phản hồi",
+        "url": config.REPORT_LINK
+    });
+    if (showReportButton)
+        buttons.push({
+            "type": "web_url",
+            "title": "Gửi phản hồi",
+            "url": config.REPORT_LINK
+        });
+    sendFacebookApi(sender, sender, {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": text,
+                "buttons": buttons
+            }
+        },
+        "quick_replies": this.quickButtons
+    }, {});
+}
+
+exports.quickButtons = [
     {
         "content_type": "text",
         "title": "tìm partner nam",
@@ -97,7 +133,6 @@ module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) 
     if (messageData.text || messageData.attachment) {
         if (messageData.text && messageData.text.length > 639) {
             this.sendFacebookAPI(sender, sender, { text: language.ERR_TOO_LONG }, true);
-
             return;
         }
 

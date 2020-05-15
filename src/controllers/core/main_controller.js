@@ -1,20 +1,29 @@
 const { handleSuccess } = require('../../helpers/response');
 const config = require('../../../custom/config');
-
-var couple = require('../couple');
-var waiter = require('../waiting');
-var user = require("../user");
-var facebook = require("../facebook");
+const utils = require('./utils');
+const couple = require('../couple');
+const waiter = require('../waiting');
+const user = require("../user");
+const facebook = require("../platform/facebook");
 
 
 module.exports.verify = async (req, res, next) => {
     if (req.query['hub.verify_token'] === config.FB_PAGE_VERIFY_TOKEN) {
-        res.send(req.query['hub.challenge'])
+        res.send(req.query['hub.challenge']);
     } else {
-        res.send('Error, wrong token') 
+        res.send('Error, wrong token');
     }
 }
 
 module.exports.postData = async (req, res, next) => {
+    if (!req.isXHub || !req.isXHubValid()) {
+        res.send('ERR: cannot verify X-Hub Signature');
+        return;
+    }
 
+    res.sendStatus(200);
+    let messaging_events = req.body.entry[0].messaging;
+    for (let i = 0; i < messaging_events.length; i++) {
+        utils.processEvent(messaging_events[i]);
+    }
 }

@@ -16,7 +16,7 @@ module.exports.addNew = async function (id1, id2, isGenderMatched) {
     });
 }
 /**
- * @callback callback(id,haveToReview,role,data);
+ * @callback callback(id,role,data);
  */
 
 module.exports.findPartner = async function (id, callback) {
@@ -25,14 +25,14 @@ module.exports.findPartner = async function (id, callback) {
             console.log('__findPartnerChatRoom error: ', err);
             setTimeout(() => findPartner(id, callback), 1000);
         } else if (doc) {
-            console.log(doc[0].id1 == id);
+            // console.log(doc[0].id1 == id);
             if (doc[0].id1 == id) {
-                callback(doc[0].id2, false, 1, doc[0]);
+                callback(doc[0].id2, 1, doc[0]);
             } else {
-                callback(doc[0].id1, false, 2, doc[0]);
+                callback(doc[0].id1, 2, doc[0]);
             }
         } else {
-            callback(null, false, 1, {});
+            callback(null, 1, {});
         }
     })
 }
