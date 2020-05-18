@@ -8,7 +8,7 @@
 
 Terminal/Bash/CMD:
 
-* To install dependencies
+To install dependencies
 ```sh
 npm install
 ```
