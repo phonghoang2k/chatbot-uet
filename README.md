@@ -2,7 +2,7 @@
 # UET Chatbot
 > This is the back-end server of a chatbot on Facebook.
 
-[![NPM Version][npm-image]][npm-url]
+[![NPM Version][npm-image]
 
 ## Installation
 
@@ -22,13 +22,14 @@ npm start
 ## Usage example
 
 - This is a backend server for user to initialize a chatbot on Facebook page.
-- Project using:
-+ NodeJS
-+ Mongoose
-- Project need:
-+ Facebook page access token.
-+ Facebook webhook verify token.
-+ Facebook app secret.
+* Project using:
+   * NodeJS
+   * Mongoose
+   
+* Project need:
+   * Facebook page access token.
+   * Facebook webhook verify token.
+   * Facebook app secret.
 for communicate with [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform/) 
 
 ## Release History
