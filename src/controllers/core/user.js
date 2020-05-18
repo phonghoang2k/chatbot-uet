@@ -1,5 +1,7 @@
-const User = require('../models/user');
-const language = require('../../custom/language');
+const User = require('../../models/user');
+const config = require('../../../custom/config');
+const language = require('../../../custom/language');
+const facebook = require('../platform/facebook');
 
 module.exports.setPreferedGender = async function (id, genderString, callback) {
     var preferedGender = "";
@@ -34,7 +36,7 @@ module.exports.setPreferedGender = async function (id, genderString, callback) {
     })
 }
 
-module.exports.getPreferedGender = async function (id, facebook, token, callback) {
+module.exports.getPreferedGender = async function (id, callback) {
     User.findOne({ userId: id }, (err, doc) => {
         if (err) {
             callback("error");
@@ -43,7 +45,7 @@ module.exports.getPreferedGender = async function (id, facebook, token, callback
             if (doc !== null) {
                 callback(doc.preferedGender);
             } else {
-                facebook.getFacebookData(token, id, (data) => {
+                facebook.getUserData(config.FB_PAGE_ACCESS_TOKEN, id, (data) => {
                     console.log(data);
                     if (!data.gender) {
                         this.setPreferedGender(id, language.KEYWORD_GENDERPREFER + 'hong', () => { });

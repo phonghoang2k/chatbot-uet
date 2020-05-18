@@ -68,7 +68,7 @@ exports.setupFacebookAPI = (token) => {
 }
 
 exports.sendTextMessage = (receiver, txt) => {
-    sendFacebookApi(receiver, receiver, { text: txt });
+    sendFacebookAPI(receiver, receiver, { text: txt });
 }
 
 exports.sendMessageButtons = (sender, text, showStartButton, showHelpButton, showReportButton = false) => {
@@ -94,7 +94,7 @@ exports.sendMessageButtons = (sender, text, showStartButton, showHelpButton, sho
             "title": "Gửi phản hồi",
             "url": config.REPORT_LINK
         });
-    sendFacebookApi(sender, sender, {
+    sendFacebookAPI(sender, sender, {
         "attachment": {
             "type": "template",
             "payload": {
@@ -128,11 +128,10 @@ exports.quickButtons = [
  * 
  * @After sender, receiver, messageData, dontSendError
  */
-
-module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) => {
+var sendFacebookAPI = (sender, receiver, messageData, dontSendError = false) => {
     if (messageData.text || messageData.attachment) {
         if (messageData.text && messageData.text.length > 639) {
-            this.sendFacebookAPI(sender, sender, { text: language.ERR_TOO_LONG }, true);
+            sendFacebookAPI(sender, sender, { text: language.ERR_TOO_LONG }, true);
             return;
         }
 
@@ -147,13 +146,13 @@ module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) 
             }
         })
             .then((response) => {
-                console(response.data);
+                console.log(response.data);
                 if (response.data.error && response.data.error.code && !dontSendError) {
                     console.log(sender + 'vs' + receiver + ' Error: ', response.data.error);
                     if (response.data.error.code == 200)
-                        this.sendFacebookAPI(sender, sender, { text: language.ERR_200 }, null, true);
+                        sendFacebookAPI(sender, sender, { text: language.ERR_200 }, null, true);
                     else if (response.data.error.code == 10)
-                        this.sendFacebookAPI(sender, sender, { text: language.ERR_10 }, null, true);
+                        sendFacebookAPI(sender, sender, { text: language.ERR_10 }, null, true);
                     else if (config.HEROKU_API_KEY && response.data.error.code == 5)
                         heroku.delete(`/apps/${config.APP_NAME}/dynos`, () => { });
                 }
@@ -166,6 +165,8 @@ module.exports.sendFacebookAPI = (sender, receiver, messageData, dontSendError) 
         console.log(messageData);
     }
 }
+
+exports.sendFacebookAPI = sendFacebookAPI;
 
 exports.sendSeenIndicator = (receiver) => {
     axios({
@@ -185,7 +186,7 @@ exports.sendImageVideoReport = (messageData, sender, receiver) => {
     let type = "ảnh";
     if (messageData.attachments[0].type == "video") type = "video";
     else if (messageData.attachments[0].type == "audio") return;
-    if (messageData.mid) this.sendFacebookAPI(sender, receiver, {
+    if (messageData.mid) sendFacebookAPI(sender, receiver, {
         "attachment": {
             "type": "template",
             "payload": {
@@ -196,3 +197,4 @@ exports.sendImageVideoReport = (messageData, sender, receiver) => {
         }
     });
 }
+

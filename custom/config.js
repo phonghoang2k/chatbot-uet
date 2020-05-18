@@ -14,6 +14,10 @@ module.exports = {
     //HEROKU
     HEROKU_API_KEY: '',
 
+    //OTHERS
+    MAX_PEOPLE_WAITROOM: 10,
+    MAX_WAIT_TIME_MINUTES : 30,
+
     //MONGODB 
     PORT: 5000,
     MONGO_URI: 'mongodb://localhost:27017/testchatbot',

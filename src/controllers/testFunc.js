@@ -1,16 +1,15 @@
 const Couple = require('../models/couple');
 const { handleSuccess, handleError } = require('../helpers/response');
 const axios = require('axios');
-var couple = require('./couple');
 const config = require('../../custom/config');
-var waiter = require('./waiting');
+var waiter = require('./core/waiting');
 const Waiter = require('../models/waiting')
 const User = require('../models/user')
-var user = require("./user");
+var user = require("./core/user");
 var facebook = require("./platform/facebook");
 const token = 'EAAItZAekgTxABACOF0mxkgPhoztvo9G3PChPB7VcLtcoUcEAlhgi6g4db3ua9hiLhIJHFwotFeNj2cYgLzEOAXjUFytlHHexvrw0RJMXDpThc8Xn7kqoQIlJ5SbQCZBHvu4MwSxxl0A3a3546P1dXoEG0YkqCo9eqenwGuGqZBVD5UbZAIOOIOAZBuVLJzGsZD';
 const id = '3294845787206281';
-const utils = require('./core/utils');
+const utils = require('./utils');
 
 module.exports.verify = async (req, res, next) => {
     // let couples = await user.getPreferedGender(id, facebook, token, (doc) => {
@@ -34,6 +33,10 @@ module.exports.verify = async (req, res, next) => {
     // handleSuccess(res, { 
     //     result: "done"
     // });
+
+    // await waiter.list((data) => {
+    //     res.send(data);
+    // })
 
     if (req.query['hub.verify_token'] === config.FB_PAGE_VERIFY_TOKEN) {
         res.send(req.query['hub.challenge']);
@@ -75,4 +78,4 @@ module.exports.postData = async (req, res, next) => {
     // let user = new User(couple_data);
     // await user.save();
     // handleSuccess(res, couple);
-}
+} 

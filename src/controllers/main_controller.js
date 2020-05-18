@@ -1,10 +1,10 @@
-const { handleSuccess } = require('../../helpers/response');
-const config = require('../../../custom/config');
+const { handleSuccess } = require('../helpers/response');
+const config = require('../../custom/config');
 const utils = require('./utils');
-const couple = require('../couple');
-const waiter = require('../waiting');
-const user = require("../user");
-const facebook = require("../platform/facebook");
+const couple = require('./core/couple');
+const waiter = require('./core/waiting');
+const user = require("./core/user");
+const facebook = require("./platform/facebook");
 
 
 module.exports.verify = async (req, res, next) => {

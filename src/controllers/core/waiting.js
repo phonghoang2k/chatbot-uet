@@ -1,4 +1,4 @@
-const Waiting = require('../models/waiting');
+const Waiting = require('../../models/waiting');
 
 module.exports.addNew = async function (id, preferedGender) {
     let data = {

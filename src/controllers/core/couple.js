@@ -1,4 +1,4 @@
-const Couple = require('../models/couple');
+const Couple = require('../../models/couple');
 
 module.exports.addNew = async function (id1, id2, isGenderMatched) {
     let data = {
@@ -24,7 +24,8 @@ module.exports.findPartner = async function (id, callback) {
         if (err) {
             console.log('__findPartnerChatRoom error: ', err);
             setTimeout(() => findPartner(id, callback), 1000);
-        } else if (doc) {
+        } else if (doc.length > 0) {
+            // console.log(doc);
             // console.log(doc[0].id1 == id);
             if (doc[0].id1 == id) {
                 callback(doc[0].id2, 1, doc[0]);
