@@ -3,8 +3,6 @@
 > This is the back-end server of a chatbot on Facebook.
 
 [![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
 
 ## Installation
 
