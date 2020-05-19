@@ -129,6 +129,7 @@ exports.quickButtons = [
  * @After sender, receiver, messageData, dontSendError
  */
 var sendFacebookAPI = (sender, receiver, messageData, dontSendError = false) => {
+    // console.log(messageData);
     if (messageData.text || messageData.attachment) {
         if (messageData.text && messageData.text.length > 639) {
             sendFacebookAPI(sender, sender, { text: language.ERR_TOO_LONG }, true);
@@ -191,7 +192,7 @@ exports.sendImageVideoReport = (messageData, sender, receiver) => {
             "type": "template",
             "payload": {
                 "template_type": "button",
-                "text": "[Chatbot] Đối phương đã gửi cho bạn 1 " + type,
+                "text": "[Chatbot] Partner gửi cho bạn 1 " + type,
                 "buttons": [{ "type": "web_url", "title": "Báo cáo/Report", "url": config.REPORT_LINK }]
             }
         }

@@ -8,7 +8,6 @@ const facebook = require('./platform/facebook');
 
 function findPair(id, mygender) {
     // first fetch list waitroom
-    //(list, genderlist)
     waiting.list((data) => {
         for (let i = 0; i <= data.length; i++) {
             if (i === data.length) {
@@ -28,7 +27,6 @@ function findPair(id, mygender) {
                 ((mygender == 'None' || target_gender == 'None') && Math.random() > 0.8)) {
                 // connect if there're so many people waiting
                 // or connect people who haven't choose preferedGender
-                console.log("aaaaaaaa");
                 connect2People(id, target, isGenderMatched);
                 return;
             } else {
@@ -80,7 +78,7 @@ function forwardMessage(sender, receiver, data) {
                         'url': data.attachments[0].payload.url
                     }
                 };
-                //fb.sendImageVideoReport(data, sender, receiver);
+                facebook.sendImageVideoReport(data, sender, receiver);
             } else {
                 facebook.sendTextMessage(sender, language.ERR_ATTACHMENT);
                 return;
@@ -166,7 +164,7 @@ exports.processEvent = (event) => {
                                     break;
                                 }
                                 default: {
-                                    facebook.sendTextMessage(id, `${language.GENDER_WRITE_OK} ${message} ${language.GENDER_WRITE_WARN}`);
+                                    facebook.sendTextMessage(id, `${language.GENDER_WRITE_OK} ${language.GENDER_MAP[message]} ${language.GENDER_WRITE_WARN}`);
                                     findPair(id, message);
                                 }
                             }
@@ -193,14 +191,13 @@ exports.processEvent = (event) => {
                         facebook.sendTextMessage(sender, language.START_ERR_ALREADY);
                     } else if (command == language.KEYWORD_HELP) {
                         facebook.sendMessageButtons(sender, language.HELP_TXT, false, false);
-                    } else { 
+                    } else {
                         if (event.read) {
                             facebook.sendSeenIndicator(sender2);
                         } else if (text.trim().toLowerCase().startsWith('[bot]')) {
                             facebook.sendTextMessage(sender, language.ERR_FAKE_MSG);
                         } else {
                             forwardMessage(sender, sender2, event.message);
-
                         }
                     }
                 } else {
@@ -208,7 +205,6 @@ exports.processEvent = (event) => {
                     waiting.deleteUser(sender);
                     couple.deleteUser(sender, () => { });
                 }
-                // TODO: Countinue code
             })
         })
     }

@@ -23,9 +23,13 @@ module.exports.setPreferedGender = async function (id, genderString, callback) {
         }
     }
 
-    User.findOneAndUpdate({ userId: id }, {
+    User.findOneAndUpdate({
+        userId: id
+    }, {
         userId: id,
         preferedGender: preferedGender
+    }, {
+        upsert: true
     }, (err) => {
         if (err) {
             callback(-id, "error");
@@ -46,7 +50,7 @@ module.exports.getPreferedGender = async function (id, callback) {
                 callback(doc.preferedGender);
             } else {
                 facebook.getUserData(config.FB_PAGE_ACCESS_TOKEN, id, (data) => {
-                    console.log(data);
+                    console.log(data); 
                     if (!data.gender) {
                         this.setPreferedGender(id, language.KEYWORD_GENDERPREFER + 'hong', () => { });
                         callback('None');

@@ -13,7 +13,7 @@ module.exports = {
     END_CHAT: '[BOT] End chat!\nGửi batdau hoặc bấm vào nút để tìm bạn chat.',
     END_CHAT_PARTNER: '[BOT] Partner đã ngắt kết nối :D \nGửi batdau hoặc bấm vào nút để tìm bạn chat.',
 
-    ERR_UNKNOWN : '[BOT] Server xảy ra lỗi nhưng không nghiêm trọng lắm\nHãy gửi ketthuc để thoát ra và thử lại',
+    ERR_UNKNOWN: '[BOT] Server xảy ra lỗi nhưng không nghiêm trọng lắm\nHãy gửi ketthuc để thoát ra và thử lại',
     ERR_ATTACHMENT: '[BOT] Lỗi: Chúng mình chưa hỗ trợ gửi dạng dữ liệu này',
     ATTACHMENT_FILE: '[BOT] Partner đã gửi 1 tệp tin: ',
     ATTACHMENT_LINK: '[BOT] Partner đã gửi 1 đường link: ',
@@ -21,7 +21,11 @@ module.exports = {
     DATABASE_ERR: '[BOT] Lỗi: Không thể kết nối với database. Hãy báo cho admin!',
     GENDER_ERR: '[BOT] Lỗi: Giới tính nhập vào không hợp lệ!\n\nẤn trợ giúp (hoặc gửi trogiup) để xem thêm.',
     GENDER_WRITE_OK: '[BOT] Bạn đã chọn giới tính mong muốn tìm được là:',
-    GENDER_ARRAY: ['hong', 'nam', 'nữ'],
+    GENDER_MAP: {
+        'None': 'hong',
+        'Male': 'nam',
+        'Female': 'nữ'
+    },
     GENDER_WRITE_WARN: '\n\nLưu ý: Tùy chọn này chỉ có tác dụng với PHẦN LỚN các cuộc nói chuyện.',
 
 
@@ -31,11 +35,10 @@ module.exports = {
         - ketthuc: Kết thúc chat
         - trogiup: Xem trợ giúp
          
-
         Các lệnh có thể dùng khi đang không chat:
         - timnu: Tìm nữ chat cùng
         - timnam: Tìm nam chat cùng`,
- 
+
     KEYWORD_START: 'batdau',
     KEYWORD_END: 'ketthuc',
     KEYWORD_GENDERPREFER: "tim",
