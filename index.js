@@ -8,7 +8,7 @@ const axios = require('axios');
 const xhub = require('express-x-hub');
 
 //part
-const router = require('./src/routers/router');
+const router = require('./src/routes/router');
 const facebook = require('./src/controllers/platform/facebook');
 
 //custom
