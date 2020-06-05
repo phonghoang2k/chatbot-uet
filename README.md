@@ -6,6 +6,12 @@
 
 ## Installation
 
+Navigate to custom/config.js and fill into 4 variable:
+* Facebook page access token.
+* Facebook webhook verify token.
+* Facebook app secret.
+* Mongodb collection url.
+
 Terminal/Bash/CMD:
 
 To install dependencies
@@ -32,6 +38,9 @@ npm start
    * Facebook app secret.
 for communicate with [Facebook Messenger Platform](https://developers.facebook.com/docs/messenger-platform/) 
 
+To have this, create a new app on [Facebook for developers](https://developers.facebook.com/) AND be approved the __Send API__ *(pages_messaging)* on Messenger platform by Facebook team.
+
+
 ## Release History
 
 * 1.0.0
@@ -50,7 +59,7 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it (<https://github.com/phonghoang2k/chatbot-uet/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
@@ -58,4 +67,3 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/npm
-[wiki]: https://github.com/yourname/yourproject/wiki
